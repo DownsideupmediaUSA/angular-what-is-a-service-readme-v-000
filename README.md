@@ -1,1 +1,52 @@
-# angular-what-is-a-service-readme
+# What is a Service?
+
+## Overview
+
+We've thrown around the idea of services before - let's dig in deep and learn all about them!
+
+## Objectives
+
+- Describe the role of a Service
+- Describe dependency injection to inject Services
+- Inject a Service into a Controller
+- Use the Service inside the Controller
+
+## Our little helpers
+
+Services are helpers. They're JavaScript functions and are responsible for doing specific tasks only. For example, we might have a `UserService` that communicates with our API for everything user based. Or a `NotificationService` to deal with showing notifications to the user.
+
+Services can be used anywhere and everywhere. It's what makes Angular so useful - we can reuse our code over and over so we don't have to repeat ourselves.
+
+## Where do they come from?
+
+It's all great being able to create services, but how do we get them when we need them? Introducing another piece of Angular magic - Dependency Injection.
+
+Dependency Injection is something you never knew you wanted until it's been given to you - now you won't be able to live without it. Dependency Injection allows us to define *what* we want our controllers to have access to and Angular gives them it!
+
+For instance, we could have 123 different services in our Angular application, but our controller only wants to use three of them. To do this, all we need to do is specify the three services name's as parameters for our controller:
+
+```js
+function ContactController(NotificationService, UserService, AuthService) {
+  NotificationService.notify('Hello!');
+}
+```
+
+Angular then, before initiating our controller, looks at what parameters we require and takes a note of them. Then when we initiate our controller, Angular knows exactly what services we need to be "injected".
+
+You'll notice that we've actually done something like this already with `$scope`. We don't have to use `$scope`, but as we specify it as a parameter to our controller, Angular injects it for us. We could have put `$scope` as the second or fifth parameter - it wouldn't matter. 
+
+Our `NotificationService` could look like this: 
+
+```js
+function NotificationService() {
+  this.notify = function (message) {
+    alert(message);
+  };
+}
+
+angular
+  .module('app')
+  .service('NotificationService', NotificationService);
+```
+
+Notice how we tell Angular about our service in a similar way that we notify it about our controllers - we use `.service` on our modules. We attach all our methods to the `this` keyword as they're properties. Then, we can access all created properties in our controllers.
