@@ -23,7 +23,7 @@ It's all great being able to create services, but how do we get them when we nee
 
 Dependency Injection is something you never knew you wanted until it's been given to you - now you won't be able to live without it. Dependency Injection allows us to define *what* we want our controllers to have access to and Angular gives them it!
 
-For instance, we could have 123 different services in our Angular application, but our controller only wants to use three of them. To do this, all we need to do is specify the three services name's as parameters for our controller:
+For instance, we could have 123 different services in our Angular application, but our controller only wants to use three of them. It's important to only include the services we need to use otherwise we may have a massive impact on performance. To do this, all we need to do is specify the three services name's as parameters for our controller:
 
 ```js
 function ContactController(NotificationService, UserService, AuthService) {
@@ -31,7 +31,7 @@ function ContactController(NotificationService, UserService, AuthService) {
 }
 ```
 
-Angular then, before initiating our controller, looks at what parameters we require and takes a note of them. Then when we initiate our controller, Angular knows exactly what services we need to be "injected".
+Angular then, before initiating our controller, looks at what parameters we require and takes a note of them. They are all identified using their names. Then when we initiate our controller, Angular knows exactly what services we need to be "injected".
 
 You'll notice that we've actually done something like this already with `$scope`. We don't have to use `$scope`, but as we specify it as a parameter to our controller, Angular injects it for us. We could have put `$scope` as the second or fifth parameter - it wouldn't matter. 
 
@@ -49,4 +49,4 @@ angular
   .service('NotificationService', NotificationService);
 ```
 
-Notice how we tell Angular about our service in a similar way that we notify it about our controllers - we use `.service` on our modules. We attach all our methods to the `this` keyword as they're properties. Then, we can access all created properties in our controllers.
+Notice how we tell Angular about our service in a similar way that we notify it about our controllers - we use `.service` on our modules. We attach all our methods to the `this` keyword as they're properties. Then, we can access all created properties in our controllers. What is important here is the first paramater - this is the name of our service and will be used when we need to inject it elsewhere. The function doesn't need to have the same name, but for debugging purposes, we keep it the same (as it'll be printed in the console if we ever get errors.)
